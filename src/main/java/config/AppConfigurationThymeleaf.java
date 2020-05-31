@@ -6,11 +6,16 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+import service.IProductService;
+import service.ProductService;
+
+import java.nio.charset.StandardCharsets;
 
 @Configuration
 @EnableWebMvc
@@ -30,7 +35,7 @@ public class AppConfigurationThymeleaf implements ApplicationContextAware {
         templateResolver.setPrefix("/views/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
         return templateResolver;
     }
 
@@ -45,7 +50,12 @@ public class AppConfigurationThymeleaf implements ApplicationContextAware {
     public ThymeleafViewResolver viewResolver() {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
-        viewResolver.setCharacterEncoding("UTF-8");
+        viewResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
         return viewResolver;
+    }
+
+    @Bean
+    public IProductService productService() {
+        return new ProductService();
     }
 }
