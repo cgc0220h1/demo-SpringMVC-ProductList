@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import service.IProductService;
@@ -17,18 +18,22 @@ public class ProductController {
     @Autowired
     private IProductService productService;
 
+    @Autowired
+    private ModelAndView modelAndView;
+
     @GetMapping
     public ModelAndView showProductList() {
         List<Product> productList = productService.findAll();
-        ModelAndView modelAndView = new ModelAndView("list");
+        modelAndView.setViewName("list");
         modelAndView.addObject("productList", productList);
+        System.out.println(productList);
         return modelAndView;
     }
 
     @GetMapping("/detail/{id}")
     public ModelAndView showDetail(@PathVariable("id") int id) {
         Product product = productService.findOne(id);
-        ModelAndView modelAndView = new ModelAndView("detail");
+        modelAndView.setViewName("detail");
         modelAndView.addObject("product", product);
         return modelAndView;
     }
@@ -53,7 +58,7 @@ public class ProductController {
 
     @GetMapping("/create")
     public ModelAndView showCreateForm() {
-        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("create");
         modelAndView.addObject("product", new Product());
         return modelAndView;
     }

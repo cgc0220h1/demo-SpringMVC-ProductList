@@ -1,11 +1,13 @@
 package config;
 
+import model.Product;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
@@ -13,6 +15,10 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import service.IProductService;
 import service.ProductService;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Configuration
 @EnableWebMvc
@@ -54,5 +60,23 @@ public class AppConfigurationThymeleaf implements ApplicationContextAware {
     @Bean
     public IProductService productService() {
         return new ProductService();
+    }
+
+    @Bean
+    public Map<Integer, Product> productMap() {
+        Map<Integer, Product> productMap;
+        productMap = new LinkedHashMap<>();
+        productMap.put(1, new Product(1, "Iphone 7", "Chanh sả", 20000000));
+        productMap.put(2, new Product(2, "Iphone 6", "Không chanh sả lắm", 15000000));
+        productMap.put(3, new Product(3, "Iphone XR", "Cực kỳ chanh sả", 25000000));
+        productMap.put(4, new Product(4, "Samsung Note 7", "Hàng của Oppa", 15000000));
+        productMap.put(5, new Product(5, "Xiaomi A7", "Hàng nhái Iphone", 5000000));
+        productMap.put(6, new Product(6, "Samsung Galaxy A3", "Hàng Lởm", 3000000));
+        return productMap;
+    }
+
+    @Bean
+    ModelAndView modelAndView() {
+        return new ModelAndView();
     }
 }
